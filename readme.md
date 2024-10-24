@@ -39,9 +39,9 @@ This application uses Bootstrap Link import to make a more responsive design and
 ***And Axios Link import was used as well***
 _____
 
-## The "old fashion" frontend look
+## The "old-fashioned" frontend look
 I have yet to explore bootstrap all the way and be aware of its great options so I used the first option CHATGPT offered. <br>
-So the project complete the requirments asked of me for this Project but by using bootstraps tht look like from a 90's Website :o). <br>
+So the project completed the requirements asked of me for this Project but by using Bootstraps that look like from a 90's Website :o). <br>
 I did learn some interesting things about HTML tags along the way so that was Fun. 8) 
 
 ## The Late Loan Alert

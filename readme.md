@@ -5,6 +5,7 @@
 **<u>This is the frontend HTML and Javascript for Page design and page logic</u>**
 
 The backend server python script logic is in here -->>> [Github backend](https://github.com/shanaor/backhand_library_project)
+<br><br> ***Important!!!!*** I used HTML Input restrictions which made some codes in the backend unnecessary , but I left them in because they are correct as part of server actions for a library. 
 
 ## <br><u>It has the following features:</u>
 
@@ -52,7 +53,8 @@ Simple answer is - convenience. <br>
 
 ## NOTE ## 
 
-I am aware about the Style in line VSC remark. this is because in a lot of places I used inline styling because I wanted to change sometimes just an individual letter or sentence. <br> so making a CSS for each one would have been HELL ON EARTH. 
+I am aware about the Style in line VSC remark. this is because in a lot of places I used inline styling because I wanted to change sometimes just an individual letter or sentence. <br> so making a CSS for each one would have been HELL ON EARTH.
+
 
 
 

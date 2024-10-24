@@ -5,7 +5,9 @@
 **<u>This is the frontend HTML and Javascript for Page design and page logic</u>**
 
 The backend server python script logic is in here -->>> [Github backend](https://github.com/shanaor/backhand_library_project)
-<br><br> ***Important!!!!*** I used HTML Input restrictions which made some codes in the backend unnecessary , but I left them in because they are correct as part of server actions for a library. 
+<br><br> ***Important!!!!*** I used HTML Input restrictions which made some codes in the backend unnecessary , but I left them in because at thier base they are correct as part of correct server actions for a library. 
+
+ ***Also Important!!!!*** The style of how I wrote the cards with inconsistent design is ON PURPOSE. it's to create unique attributes to different functions so they would be easier to recognize by it (assuming that it would create more alertness of the user and therefore less mistakes)
 
 ## <br><u>It has the following features:</u>
 

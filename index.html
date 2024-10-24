@@ -1,0 +1,2023 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://st2.depositphotos.com/41964238/42538/i/450/depositphotos_425380758-stock-photo-bookshelves-library-old-books-render.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-form {
+            display: none;
+        }
+
+        .search-form.active {
+            display: block;
+        }
+
+        .Manage-form {
+            display: none;
+        }
+
+        .Manage-form.active {
+            display: block;
+        }
+
+        .aboutMe-section {
+            display: none;
+            /* Hide all sections by default */
+        }
+
+        .aboutMe-section.active {
+            display: block;
+            /* Show the active section */
+        }
+
+        .ReturnLoan-form {
+            display: none;
+        }
+
+        .ReturnLoan-form.active {
+            display: block;
+        }
+
+        input,
+        select,
+        button {
+            margin-bottom: 10px;
+            padding: 8px;
+
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 60px;
+            /* Adjust this value to make the buttons narrower */
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            font-size: 24px;
+            /* Adjust the icon size if needed */
+        }
+
+        #results {
+            font-family: monospace;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 1rem;
+            border-radius: .25rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ------------------- CAROUSEL SECTION -------------------------------  (((( TO EYAL!!!  FIRST BOOTSTRAP IN USE OUT OF THREE!!!!!!!)))) 1/3 -->
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <!-- First Image -->
+            <div class="carousel-item active">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf6IpuAu7jNlQUAF9eJ9BU3CyJAjjSjEKGpg&s"
+                    class="d-block w-100" alt="Library entrence picture Link Down">
+            </div>
+            <div class="carousel-item">
+                <img src="https://img.kwcdn.com/product/fancy/a6ae9b9c-9e0f-4e58-80c0-87fae2328b8d.jpg?imageView2/2/w/800/q/70/format/webp"
+                    class="d-block w-100" alt="Book picture Link Down">
+            </div>
+            <div class="carousel-item">
+                <img src="https://www.bodleian.ox.ac.uk/sites/default/files/styles/listing_landscape_image/public/bodreader/images/media/taylorian-readingroom.jpg?itok=ki7cNpIO"
+                    class="d-block w-100" alt="Crowd in Library picture Link Down">
+            </div>
+            <div class="carousel-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRayXEeA3RHtR_k5ajWZlxBbyGwCoZ0AUmNMg&s"
+                    class="d-block w-100" alt="Book with sunlight in the dark picture Link Down">
+            </div>
+            <!-- Fifth Image -->
+            <div class="carousel-item">
+                <img src="https://www.shutterstock.com/image-photo/book-stack-on-desk-public-600nw-2472408701.jpg"
+                    class="d-block w-100" alt="Stack of Books picture Link Down">
+            </div>
+        </div>
+        <!-- Carousel Controls (Optional: for navigation) -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Prev</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+
+    <div class="container">
+        <h1 style="text-align: center;"><b><u> Library Management System </u></b></h1>
+        <hr>
+        <hr>
+        <hr>
+        <h2>Add Customer</h2>
+        <form id="addCustomerForm">
+            <input type="text" class="form-control" id="customerAddName" placeholder="Name" pattern="^[A-Za-z\s\.\-]*$"
+                title="Only Letters and signs: | - | . |" required>
+            
+            <input type="text" class="form-control" id="customerCity" placeholder="City" pattern="^[A-Za-z\s\.\-]*$"
+                title="Only Letters and signs: | - | . | " required>
+            
+            <input type="number" class="form-control" id="customerAge" placeholder="Age" min="16" max="100" step="1" 
+                title="Age must be between 16 and 100" required>
+            
+            <input type="tel" class="form-control" id="customerAddPhone" placeholder="Phone Number" required
+                pattern="[0-9]{2,3}-[0-9]{7,7}" title="Only NN-NNNNNNN to NNN-NNNNNNN style is allowed"
+                oninvalid="this.setCustomValidity('Only NN-NNNNNNN to NNN-NNNNNNN style is allowed')"
+                oninput="this.setCustomValidity('')">
+            <button type="submit">Add Customer</button>
+        </form>
+        <hr>
+        <hr>
+        <br>
+        <h2>Add Book</h2>
+        <form id="addBookForm">
+            <input type="text" class="form-control" id="bookName" placeholder="Name" pattern="^[A-Za-z0-9\s\.,\-]*$"
+                title="Only Letters, numbers and signs: | - | . | , |" required>
+            <input type="text" class="form-control" id="bookAuthor" placeholder="Author" pattern="^[A-Za-z0-9\s\.,\-]*$"
+                title="Only Letters, numbers and signs: | - | . | , |" required>
+            <input type="number" class="form-control" id="bookYear" placeholder="Year Published" min="-1000" max="2150" required>
+
+            <select id="bookType" required title="booktype">
+                <option value="1">Type 1 (10 days)</option>
+                <option value="2">Type 2 (5 days)</option>
+                <option value="3">Type 3 (2 days)</option>
+            </select>
+            <select id="bookCategory" required title="bookCategory">
+                <option value="Science Fiction">Science Fiction</option>
+                <option value="Horror">Horror</option>
+                <option value="Romance">Romance</option>
+                <option value="Mystery">Mystery</option>
+                <option value="Fantasy">Fantasy</option>
+                <option value="Biography">Biography</option>
+                <option value="History">History</option>
+                <option value="Comedy">Comedy</option>
+            </select>
+            <button type="submit">Add Book</button>
+        </form>
+        <hr>
+        <hr>
+        <br>
+
+        <h2>Return\Loan</h2>
+        <select id="ReturnLoanSelect" onchange="show_Return_Loan_Form()" title="Return\Loan">
+            <option value="">Select Add\Return</option>
+            <option value="returnBook">Return Book</option>
+            <option value="loanBook">Loan Book</option>
+        </select>
+        <form id="loanBookForm" class="ReturnLoan-form">
+            <input type="number" class="form-control" id="loanCustomerId" placeholder="Customer ID" min="1" required>
+            <input type="number" class="form-control" id="loanBookId" placeholder="Book ID" min="1" required>
+            <button type="submit">Loan Book</button>
+        </form>
+        <form id="returnBookForm" class="ReturnLoan-form">
+            <input type="number" class="form-control" id="returnCustomerId" placeholder="Customer ID" min="1" required>
+            <input type="number" class="form-control" id="returnBookId" placeholder="Book ID" min="1" required>
+            <button type="submit">Return Book</button>
+        </form>
+        <hr>
+        <hr>
+        <hr>
+        <br>
+
+        <h2><u> Display Store Data </u></h2>
+        <button onclick="getBooks()">Display Books</button>
+        <button onclick="getOutOfStockBooks()">Display Out of Stock Books</button>
+        <button onclick="getreturnbooks()">Disply Returned Book list</button>
+        <button onclick="getCustomers()">Display Customers</button>
+        <button onclick="getDeactivatedCustomers()">Display Deactivated Customers</button>
+        <button onclick="getLoans()">Display Loans</button>
+        <button onclick="getLateLoans()">Display Late Loans</button>
+
+
+        <h2><br>Search Filters - For Specific search:</h2>
+        <select id="searchTypeSelect" onchange="showSearchForm()" title="type of search">
+            <option value="">Select search type</option>
+            <option value="book">Book</option>
+            <option value="customer">Customer</option>
+            <option value="loan">Loan</option>
+            <option value="ReturnedBooks">ReturnedBooks</option>
+        </select>
+        <br><br><br>
+        <form id="ReturnedBooksSearchForm" class="search-form">
+            <input type="text" class="form-control" id="custName" placeholder="Enter customer name"
+                pattern="^[A-Za-z\s\.\-]*$" title="Only Letters and signs: | - | . | ">
+            <input type="number" class="form-control" id="custId" placeholder="Enter customer ID" min="1">
+            <button type="submit">Search ReturnedBooks</button>
+        </form>
+        <form id="bookSearchForm" class="search-form">
+            <input type="text" class="form-control" id="bookSearchName" placeholder="Book Name"
+                pattern="^[A-Za-z0-9\s\.,\-]*$" title="Only Letters, numbers and signs:  | - | . | , |">
+            <input type="text" class="form-control" id="bookSearchAuthor" placeholder="Author"
+                pattern="^[A-Za-z0-9\s\.,\-]*$" title="Only Letters, numbers and signs:  | - | . | , |">
+            <select id="bookSearchCategory" title="Select a book category">
+                <option value="">Select Category</option>
+                <option value="SCIFI">Science Fiction</option>
+                <option value="HORROR">Horror</option>
+                <option value="ROMANCE">Romance</option>
+                <option value="MYSTERY">Mystery</option>
+                <option value="FANTASY">Fantasy</option>
+                <option value="BIOGRAPHY">Biography</option>
+                <option value="HISTORY">History</option>
+                <option value="COMEDY">Comedy</option>
+            </select>
+            <select id="bookOutOfStock" title="Out of stock status">
+                <option value="">Out of Stock</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+            <button type="submit">Search Books</button>
+        </form>
+        <form id="customerSearchForm" class="search-form">
+            <input type="text" class="form-control" id="customerSearchName" placeholder="Customer Name"
+                pattern="^[A-Za-z\s\.,\-]*$" title="Only Letters and signs: | - | . | , |">
+
+            <input type="number" class="form-control" id="customerId" placeholder="Customer ID" min="1">
+
+            <input type="text" class="form-control" id="customerSearchPhone" placeholder="Phone Number"
+                pattern="[0-9]{2,3}-[0-9]{7,7}" title="Only NN-NNNNNNN to NNN-NNNNNNN style is allowed"
+                oninvalid="this.setCustomValidity('Only NN-NNNNNNN to NNN-NNNNNNN style is allowed')"
+                oninput="this.setCustomValidity('')">
+            <select id="customerDeactivated" title="customer deactivation status">
+                <option value="">Deactivated</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+            <button type="submit">Search Customers</button>
+        </form>
+        <form id="loanSearchForm" class="search-form">
+            <input type="number" class="form-control" id="loanCustomerIDSearch" placeholder="Customer ID" min="1">
+            <input type="number" class="form-control" id="loanBookIDSearch" placeholder="Book ID" min="1">
+            <label for="loanStartDate">Start Date:</label>
+            <input type="date" class="form-control" id="loanStartDate" placeholder="Start Date">
+            <label for="loanEndDate">End Date:</label>
+            <input type="date" class="form-control" id="loanEndDate" placeholder="End Date">
+            <button type="submit">Search Loans</button>
+        </form>
+        <hr>
+        <h2><br>Manage Books and Customers:</h2>
+        <select id="addremoveSelect" onchange="show_activate_remove()" title="Manage customers/Books">
+            <option value="">Select What to Manage </option>
+            <option value="removeBook">RemoveBook</option>
+            <option value="removeCustomer">RemoveCustomer</option>
+            <option value="activateBook">ActivateBook</option>
+            <option value="activateCustomer">ActivateCustomer</option>
+            <option value="updateBookQuantity">UpdateBookQuantity</option>
+        </select>
+        <br><br><br>
+        <form id="removeBookManageForm" class="Manage-form">
+            <input type="number" class="form-control" id="removeBookId" placeholder="Book ID" min="1" required>
+            <button type="submit">Remove Book</button>
+        </form>
+        <form id="removeCustomerManageForm" class="Manage-form">
+            <input type="number" class="form-control" id="removeCustomerId" placeholder="Customer ID" min="1" required>
+            <button type="submit">Remove Customer</button>
+        </form>
+        <form id="activateBookManageForm" class="Manage-form">
+            <input type="number" class="form-control" id="activateBookId" placeholder="Book ID" min="1" required>
+            <button type="submit">Activate Book</button>
+        </form>
+        <form id="activateCustomerManageForm" class="Manage-form">
+            <input type="number" class="form-control" id="activateCustomerId" placeholder="Customer ID" min="1"
+                required>
+            <button type="submit">Activate Customer</button>
+        </form>
+        <form id="updateBookQuantityManageForm" class="Manage-form">
+            <input type="number" class="form-control" id="updateBookId" placeholder="Book ID" min="1" required>
+            <input type="number" class="form-control" id="updateBookQuantity" placeholder="New Quantity" min="1" max="100" required>
+            <button type="submit">Update Quantity</button>
+        </form>
+        <hr>
+        <hr>
+        <hr>
+
+        <h2><u>Logs and Stats</u></h2>
+        <form id="logEntriesForm">
+            <label for="startDate">Start Date:</label>
+            <input type="date" class="form-control" id="startDate" name="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" class="form-control" id="endDate" name="endDate">
+            <button type="submit">Get Log Entries</button>
+        </form>
+        <button onclick="getStats()">Get Store Statistics</button>
+
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col" id="results">
+                    <!-- The result from the API call will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <h2><u>About</u></h2>
+        <select id="aboutMeSelect" onchange="show_About_Me_Section()" title="About Me Sections">
+            <option value="">Select Section</option>
+            <option value="education">Deatails about the project</option>
+            <option value="experience"> Who Am I?</option>
+            <option value="hobbies">The perpouse of the site</option>
+        </select>
+        <div id="educationSection" class="aboutMe-section">
+            <p><mark><span style="font-size: 22px;">T</span>his project was programed using <b>Python script</b>,
+                    <b>HTML</b>, and <b>Javascript</b>.</mark>
+                <br> <br> <b><span style="font-size: 22px;">T</span>he Server</b> is built using Python and it uses
+                <u>SQLAlchemy</u> File\code import to manage the Database.
+                <br>The site is built using Hyper Text Markup Language, or in short: HTML.
+                <br>And the sites Functions or "LOGIC", i.e. its "Brain" is written using Javascript.
+                <br><br><span style="font-size: 22px;">I</span>t was built Using the assistance of AI to write vast
+                majority of the Code, BUT - because it seems
+                AI isnt perfect (yet... <b>*wink wink*</b> Arnold Schwarzenegger) I used different AI's for different
+                things.
+                <br><br><span style="font-size: 22px;">C</span>laude was used to give the initial server structure and
+                initial HTML.
+                <br>It seems that Claude's training made him to prefer writing one page Management webpage while CHATGPT
+                seems
+                to prefer using render plates and jinja (which my teacher Eyal forbide us from using).
+                <br> <br><span style="font-size: 22px;">S</span>o after getting that base from Claude, all adjustments
+                after it were used with the assistance of CHATGPT or
+                my personal reasoning from what I learned from Eyal in cases where CHATGPT or Claude make mistakes.
+                <br><br><span style="font-size: 22px;">I</span> tried to use Google Gemini - which is nice because it
+                writes HTML+JAVASCRIPT the way Eyal writes himself using innerHTML
+                command to send HTML tags to the HTML body which i find to be more dynamic and flexible by making
+                automatic changes with the changing data.
+                <br><br><span style="font-size: 22px;">B</span>ut!!!! thier <span style="font-size: 18px;">AI</span>
+                still isnt working well, which is a surprise because it's GOOGLE(!)
+                <br> <br><span style="font-size: 18px;">I</span>n this project I tried to use a mix of dynamic select
+                menus to save space, and also keep some input
+                windows to leave the menu with some "meat" for sake of aesthetics.
+                <br><br><b><u><span style="font-size: 18px;">I</span> used bootstrap link to make:</u></b></span>
+            <ol>
+                <li> The carousel</li>
+                <li> To make the warning alert for the late loans</li>
+                <li> The
+                    information input cards and windows in the result DIV.</li>
+            </ol>
+            </p>
+        </div>
+        <div id="experienceSection" class="aboutMe-section">
+            <p> My name is <mark>Shachar Naor</mark> (or in English "inlighten Dawn", if you insist... )
+                new student for python full stack programing in John Bryce academy. <img
+                    src="https://cdn.spacenter.co.il/wp-content/uploads/2022/05/JOHN-BRYCE-%D7%9C%D7%95%D7%92%D7%95-%D7%A1%D7%A4%D7%99%D7%99%D7%A1%D7%A0%D7%98%D7%A8-2.jpg"
+                    style="height: 1em; vertical-align: middle;" alt="">
+                <br>Before that my experience is very short period learning HTML, Assembly and C.
+                <br>Learned it the hard way... with notepad!... how easy and fun it is with integrated code program like
+                VSC.
+                <br> I am hoping to learn more about <span style="font-size: 18px;">AI</span> and the search Data on web
+                field, to maybe do fun things in the information search world.
+                AND thats it... Thank you for taking interest!!
+                <br><img src="https://shanaor.github.io/project_image_temporary/shachar.jpg" alt="picture of me">
+            </p>
+        </div>
+        <div id="hobbiesSection" class="aboutMe-section">
+            <p><br>This site is a <MARK>book management application</MARK> designed to manage Book and customer Data.
+                <br>It aims to help the user have easier job managing new customers, existing customers, deactivation
+                and automatic Loan tracking which will alert the user when a Late loan exists.
+                <br>Additionally the system helps manage the book stock and many of its options are in the selection
+                menus, so
+                make sure to check them out.
+
+
+                <br><br> <u><b>Functions of this site:</b></u>
+            <ul>
+                <li>add customer </li>
+                <li>Deactivate customer</li>
+                <li>Add book </li>
+                <li>Deactivate book </li>
+                <li>Change book quantity</li>
+                <li>Loan a book</li>
+                <li>Return loans </li>
+                <li>Get notifications for late return </li>
+                <li>Search existing customers (deactivated and activated)</li>
+                <li>Search existing books (deactivated and activated)</li>
+                <li>Get a list of late loans </li>
+                <li>Get a list of all Returned books</li>
+                <li>list of existing loans including date and time </li>
+                <li>Get store stock,Customer and loan Statistics</li>
+                <li>Get Log information about actions performed in the application by the users sorted by dates</li>
+                <li> And Reset Data to 5 automatic customers (as requested by Eyal)</li>
+            </ul>
+            <br> <span style="font-size: 18px;">I</span>f anything else needed, let me know.
+
+            </p>
+        </div>
+
+        <h2><br>Database Management</h2>
+        <button onclick="resetDatabase()">Reset Database</button>
+    </div>
+    <script>
+        // result Div Location in variable insertion
+        const resultsDiv = document.getElementById('results');
+        // API call function
+        const API_URL = 'https://backhand-library-project.onrender.com';
+        axios.defaults.baseURL = API_URL;
+
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            try {
+                const response = await axios({
+                    method,
+                    url: endpoint,
+                    data
+                });
+
+                return response.data;
+            }
+            catch (error) {
+                console.error('API call error:', error);
+                return { error: error.response ? error.response.data : 'An error occurred' };
+            }
+        }
+
+        // --------------------------[INDEX PAGE] JAVASCRIPT----------------------------------------------
+        // ===============================================================================================
+        
+        axios.get('/')
+            .then(function (response) {
+                // Check if there is an X-Alert-Message header              ((((((  TO EYAL!!!!  SECOND BOOTSTRAP IN USE OUT OF THREE!!!!! 2/3 ))))
+                const alertMessage = response.headers['x-alert-message'];          /// Third is the Cards Bootstrap
+
+                if (alertMessage) {
+                    // If the alert message exists, create a Bootstrap alert and display it
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert alert-warning alert-dismissible fade show';
+                    alertDiv.role = 'alert';
+                    alertDiv.innerHTML = `
+                                        <mark> ${alertMessage} </mark>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" 
+                                        aria-label="Close"></button>  `;
+                    document.body.prepend(alertDiv); // Prepend the alert at the beginning of the body
+
+                }
+            }).catch(function (error) {
+                console.error('Error loading the page:', error);
+            });
+        
+        // ========================================================================================================
+        // --------------------------------------------------------------------------------------------------------
+
+
+        // --------------------------[ADD\RETURN\LOAN FORMS] JAVASCRIPT--------------------------------------------
+        // ========================================================================================================
+
+        document.getElementById('addCustomerForm').onsubmit = async (e) => {
+            e.preventDefault();
+        // Get the user input
+            const result = await apiCall('/add_customer', 'POST', {
+                name: document.getElementById('customerAddName').value,
+                city: document.getElementById('customerCity').value,
+                age: document.getElementById('customerAge').value,
+                phone_number: document.getElementById('customerAddPhone').value
+            });
+        // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+        // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success) {
+                // Success
+                resultsDiv.innerHTML = `
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Success!!</div>
+                <div class="card-body">
+                    <h5 class="card-title"><u>Customer Added Successfully</u>!</h5>
+                    <p class="card-text">Customer [' ${result.success.cust_name} '] added successfully!!! - 
+                        Make sure to give the Customer thier ID number! it will be used for returns and loans -->></p>
+                    <p class="card-text">ID number: ${result.success.cust_id}</p>
+                </div>
+            </div> `;
+
+            } else if (result.error && result.error.error) {
+                // Error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.error_cust_exist) {
+                // Error - Customer already exist (Matched by Customer Phone number)
+                resultsDiv.innerHTML = `
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Error</div>
+                <div class="card-body">
+                    <h5 class="card-title"><u>Error Adding Customer</u></h5>
+                    <p class="card-text">Customer seems to already exist, entered a phone number that already exists in the database.</p>
+                    <p class="card-text">Check CustomerList for Customer ID: [ ${result.error.error_cust_exist} ]</p>
+                </div>
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('addBookForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const result = await apiCall('/add_book', 'POST', {
+                name: document.getElementById('bookName').value,
+                author: document.getElementById('bookAuthor').value,
+                year_published: document.getElementById('bookYear').value,
+                type: document.getElementById('bookType').value,
+                category: document.getElementById('bookCategory').value
+            });
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success) {
+                // Success
+                resultsDiv.innerHTML = `
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header"><span style="font-size: 18px;">S</span>uccess!!! Book added </div>
+                <div class="card-body">
+                    <h5 class="card-title"> </h5>
+                    <p class="card-text"><span style="font-size: 20px;">B</span><span style="font-size: 18px;">ook:</span> <b>[</b>' ${result.success.name} '<b>]</b>
+                        added <span style="font-size: 18px;">S</span>uccessfully 
+                        <br><span style="font-size: 20px;">B</span><span style="font-size: 18px;">ook</span> ID: ${result.success.id} </p>
+                    </div>
+                </div> `;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Error</div>
+                <div class="card-body">
+                    <h5 class="card-title">Error Adding Book</h5>
+                    <p class="card-text">${result.error.error}</p>
+                </div>
+            </div> `;
+
+            } else if (result.error && result.error.error_book_Exist) {
+                // Error Book already exist (Matched by book name)
+                resultsDiv.innerHTML = `
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header"><u>Error</u></div>
+                <div class="card-body">
+                    <h5 class="card-title">Error Adding Book</h5>
+                    <p class="card-text"> <span style="font-size: 19px;">B</span>ook with the name <b>[</b>'${result.error.error_book_Exist.book_name}'<b>]</b> 
+                    Already exists in the DataBase. <br>( Existing Book ID: ${result.error.error_book_Exist.book_id} ) </p>
+                </div>
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('loanBookForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const result = await apiCall('/loan_book', 'POST', {
+                cust_id: document.getElementById('loanCustomerId').value,
+                book_id: document.getElementById('loanBookId').value
+            });
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success) {
+                // Success
+                resultsDiv.innerHTML = `
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong><span style="font-size: 18px;">S</span>uccess!</strong> 
+                <b>B</b>ook -->> <b>[</b> ${result.success.bookname} , ID:${result.success.bookid} <b>]</b>
+                <span style="font-size: 18px;">l</span>oaned successfully to <br><b>[</b> ${result.success.customername} <b>]</b>,
+                <b>(</b>ID: ${result.success.customerid} <b>).</b>
+                <br><span style="font-size: 18px;">B</span>ook quantity left: ${result.success.bookquantity}. ${result.success.bookquantity == 0 ? "<mark>Book out of stock!!!</mark>" : ""}
+                <br> <span style="font-size: 18px;">G</span>ive customer thier Loan ID: ( ${result.success.newloandid} )
+            </div> `;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.errorCustnotfound) {
+                // Error - Customer not found (there is no matching customer ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong> Customer <b>(</b>ID: ${result.error.errorCustnotfound}<b>)</b> not found
+            </div> `;
+
+            } else if (result.error && result.error.errorBooknotfound) {
+                // Error - Book not found (there is no matching book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong> Book <b>(</b>ID: ${result.error.errorBooknotfound}<b>)</b> not found
+            </div> `;
+
+            } else if (result.error && result.error.errorCustdeactivated) {
+                // Error - Customer is deactivated (searched by customer ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong>  Customer <b>(</b> <u>Name</u>: ${result.error.errorCustdeactivated.name} , 
+                <b>[</b>ID:${result.error.errorCustdeactivated.id}<b>]</b> <b>)</b> is Deactivated
+            </div> `;
+
+            } else if (result.error && result.error.erroroutofstock) {
+                // Error - Book is out of stock (searched by book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong> Book (Name: ${result.error.erroroutofstock.name} [ID:${result.error.erroroutofstock.id}] ) is out of stock.
+            </div> `;
+
+            } else if (result.error && result.error.errorloaned) {
+                // Error - Book is already loaned to the customer ( matching book ID and customer ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong> <span style="font-size: 18px;">B</span>ook <b>[</b> ${result.error.errorloaned.bookname}, (ID:${result.error.errorloaned.bookid}) <b>]</b> 
+                is already loaned to <b>[</b> ${result.error.errorloaned.custname}, ID:${result.error.errorloaned.custid}<b>]</b>
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('returnBookForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const result = await apiCall('/return_book', 'POST', {
+                cust_id: document.getElementById('returnCustomerId').value,
+                book_id: document.getElementById('returnBookId').value
+            });
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success_on_time) {
+                // Success: Book brought back on time (matched by customer ID and book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-success" role="alert">
+                <strong><span style="font-size: 18px;">Success:</span></strong> Returned book [ ${result.success_on_time.bookname}, 
+                ID:${result.success_on_time.bookid} ] from customer [ ${result.success_on_time.customername} ] (ID: ${result.success_on_time.custid}), 
+                <br> on loan Number <b>(</b> ${result.success_on_time.loanid} <b>)</b> at ${result.success_on_time.actual_return_date} 
+                <br><br> Previous book quantity: ${result.success_on_time.previous_book_quantity}
+                <br> Updated book quantity: ${result.success_on_time.Updated_book_quantity}
+                ${result.success_on_time.previous_book_quantity == 0 ? "<br><br><mark> book quantity changed from 0, make sure to activate book in the system if the store still wants to loan it</mark>" : ""}
+            </div> `;
+
+            } else if (result.success_late) {
+                // Success: Book returned late (matched by customer ID and book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-success" role="alert">
+                <strong><span style="font-size: 18px;">Success:</span></strong> <mark>This book (ID:${result.success_late.bookid}) was returned late!!</mark> last return due date was
+                <br> <b>[</b> ${result.success_late.return_due_date} <b>]</b>, and now its <b>[</b> ${result.success_late.actual_return_date} <b>]</b>. 
+                <br> The book marked as returned But please be aware!! 
+                <br><br> Previous book quantity: ${result.success_late.previous_book_quantity}
+                <br> new book quantity: ${result.success_late.book_quantity}
+                ${result.success_late.previous_book_quantity == 0 ? "<br><br> book quantity changed from 0, <mark>make sure to activate book in the system if the store still wants to loan it</mark>" : ""}
+            </div> `;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.error_not_found) {
+                // Error - book or customer not found (matched by customer ID and book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><span style="font-size: 20px;">Error:</span></strong> <span style="font-size: 18px;">C</span>ustomer with ID: <b>(</b> ${result.error.error_not_found.custid} <b>)</b> 
+                or Book with ID: <b>(</b> ${result.error.error_not_found.bookid} <b>)</b> not found
+            </div> `;
+
+            } else if (result.error && result.error.error_loan) {
+                // Error - loan not found (matched by customer ID and book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> No open loan case for Book with ID:<b>(</b> ${result.error.error_loan.bookid} <b>)</b> and Customer with ID:(${result.error.error_loan.custid}).
+                <br> Either wasnt loaned or was already Returned.
+                <br><br> Check ReturnedBooks or open loans for more information.
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // --------- [showing form logic] ---------------
+        // ==============================================
+
+        function show_activate_remove() {
+            const searchType = document.getElementById('addremoveSelect').value;
+            document.querySelectorAll('.Manage-form').forEach(form => form.classList.remove('active'));
+            if (searchType) {
+                document.getElementById(`${searchType}ManageForm`).classList.add('active');
+            }
+        }
+
+        // ----------------------
+
+        function show_Return_Loan_Form() {
+            const searchType = document.getElementById('ReturnLoanSelect').value;
+            document.querySelectorAll('.ReturnLoan-form').forEach(form => form.classList.remove('active'));
+            if (searchType) {
+                document.getElementById(`${searchType}Form`).classList.add('active');
+            }
+        }
+
+        // ========================================================================================================
+        // --------------------------------------------------------------------------------------------------------
+
+
+        // ------------------------------[SEARCH FORMS]  JAVASCRIPT -----------------------------------------------
+        // ========================================================================================================
+
+        document.getElementById('ReturnedBooksSearchForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const custName = document.getElementById('custName').value;
+            const custId = document.getElementById('custId').value;
+            // Build the API endpoint based on the search parameters
+            let endpoint = '/Returned_Books_list?';
+            if (custName) endpoint += `name=${encodeURIComponent(custName)}&`;
+            if (custId) endpoint += `id=${custId}`;
+            // Fetch data from the API
+            const result = await apiCall(endpoint);
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result, inserted into bootstrap cards
+                let returnedBooks = '';
+                result.forEach(book => {
+                    returnedBooks += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: green;">Returned Book Details</h5>
+                            <hr><hr>
+                            <p class="card-text"><strong>Returned Loan ID:</strong> ${book.id}</p>
+                            <hr>
+                            <p class="card-text"><strong>Book Name:</strong> ${book.book_name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer Name:</strong> ${book.cust_name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer ID:</strong> ${book.cust_id}</p>
+                            <hr>
+                            <p class="card-text"><strong>Phone Number:</strong> ${book.cust_phonenumber}</p>
+                            <hr>
+                            <p class="card-text"><strong>Loan ID:</strong> ${book.loan_id}</p>
+                            <hr>
+                            <p class="card-text"><strong>Loan Date:</strong> ${book.loan_date}</p>
+                            <hr>
+                            <p class="card-text"><strong>Returned Date:</strong> ${book.returned_date}</p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = returnedBooks;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.errorSearchfound) {
+                // Error - Not found in Returned book search (matched by Customer ID and Customer name)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><span style="font-size: 18px;">E</span>rror:</strong> 
+                <span style="font-size: 18px;">N</span>o <span style="font-size: 18px;">R</span>eturned<span style="font-size: 18px;">B</span>ooks For Query 
+                <br>---------------------------------
+                <br><br> <span style="font-size: 18px;"><b>C</b></span>ustomer ID: ( ${result.error.errorSearchfound.id} ) 
+                <br><br> OR/And <br><br>
+                <span style="font-size: 18px;"><b>C</b></span>ustomer Name: ( ${result.error.errorSearchfound.name} )
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('bookSearchForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const name = document.getElementById('bookSearchName').value;
+            const author = document.getElementById('bookSearchAuthor').value;
+            const category = document.getElementById('bookSearchCategory').value;
+            const outOfStock = document.getElementById('bookOutOfStock').value;
+            // Build the API endpoint based on the search parameters
+            let endpoint = '/search_books?';
+            if (name) endpoint += `name=${encodeURIComponent(name)}&`;
+            if (author) endpoint += `author=${encodeURIComponent(author)}&`;
+            if (category) { endpoint += `category=${encodeURIComponent(category)}&`; }
+            if (outOfStock) endpoint += `out_of_stock=${outOfStock}`;
+            // Call the API and get the result
+            const result = await apiCall(endpoint);
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result, inserted into bootstrap cards
+                let bookCards = '';
+                result.forEach(book => {
+                    bookCards += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Details:</h5>
+                            <hr><hr><hr>
+                            <p class="card-text"><strong>Book ID:</strong> ${book.id}</p>
+                            <hr>
+                            <p class="card-text"><strong>Book Name:</strong> ${book.name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Author:</strong> ${book.author}</p>
+                            <hr>
+                            <p class="card-text"><strong>Year Published:</strong> ${book.year_published}</p>
+                            <hr><hr>
+                            <p class="card-text"><strong>Loan Type:</strong> ${book['loan type']}</p>
+                            <hr>
+                            <p class="card-text"><strong>Category:</strong> ${book.category}</p>
+                            <hr>
+                            <p class="card-text"><strong>Quantity:</strong> ${book.quantity}</p>
+                            <hr>
+                            <p class="card-text">
+                                <strong>Status:</strong> ${book.is_out_of_stock ? '<span class="text-danger">Out of Stock</span>' : '<span class="text-success">In Stock</span>'}
+                            </p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = bookCards;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.errorNotFound) {
+                // Error - no books found 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> No books found matching the search criteria:
+            <br>---------------------------------------------------
+            <br><br> Book Name: ${name ? name : "?"}
+            <br><br> Author: ${author ? author : "?"}
+            <br><br> Book Category: ${category ? category : "?"}
+            <br><br> Out Of Stock: ${outOfStock ? outOfStock : "?"}    
+            </div>  `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('customerSearchForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const name = document.getElementById('customerSearchName').value;
+            const id = document.getElementById('customerId').value;
+            const phone = document.getElementById('customerSearchPhone').value;
+            const deactivated = document.getElementById('customerDeactivated').value;
+
+            // Build the API endpoint based on the search parameters
+            let endpoint = '/search_customers?';
+            if (name) endpoint += `name=${encodeURIComponent(name)}&`;
+            if (id) endpoint += `id=${id}&`;
+            if (phone) endpoint += `phone_number=${encodeURIComponent(phone)}&`;
+            if (deactivated) endpoint += `is_deactivated=${deactivated}`;
+            // Call the API and get the result
+            const result = await apiCall(endpoint);
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result, inserted into bootstrap cards
+                let customerCards = '';
+                result.forEach(customer => {
+                    customerCards += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Customer Details</h5>
+                            <hr><hr>
+                            <p class="card-text"><strong>Name:</strong> ${customer.Name}</p>
+                            <hr>
+                            <p class="card-text"><strong>ID:</strong> ${customer.Id}</p>
+                            <hr>
+                            <p class="card-text"><strong>City:</strong> ${customer.City}</p>
+                            <hr>
+                            <p class="card-text"><strong>Age:</strong> ${customer.Age}</p>
+                            <hr>
+                            <p class="card-text"><strong>Phone Number:</strong> ${customer.Phone_number}</p>
+                            <hr>
+                            <p class="card-text">
+                                <strong>Status:</strong> ${customer.Deactivated_status ? '<span class="text-danger">Deactivated</span>' : '<span class="text-success">Active</span>'}
+                            </p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = customerCards;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.error_customer_not_found) {
+                // Error - Customer not found
+                resultsDiv.innerHTML = `
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Error</div>
+                <div class="card-body">
+                    <h5 class="card-title"><u>Error Searching Customer</u></h5>
+                    <p class="card-text"> No customers found matching the search criteria --->>></p>
+                    <p class="card-text"> Name: ${result.error.error_customer_not_found.name}</p>
+                    <p class="card-text"> ID: ${result.error.error_customer_not_found.customer_id}</p>
+                    <p class="card-text"> Phone Number: ${result.error.error_customer_not_found.phone_number}</p>
+                    <p class="card-text"> Deactivation Status: ${result.error.error_customer_not_found.active_status}</p>
+                </div>
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('loanSearchForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const custId = document.getElementById('loanCustomerIDSearch').value;
+            const bookId = document.getElementById('loanBookIDSearch').value;
+            const startDate = document.getElementById('loanStartDate').value;
+            const endDate = document.getElementById('loanEndDate').value;
+            // Build the API endpoint based on the search parameters
+            let endpoint = '/search_loans?';
+            if (custId) endpoint += `cust_id=${custId}&`;
+            if (bookId) endpoint += `book_id=${bookId}&`;
+            if (startDate) endpoint += `start_date=${startDate}&`;
+            if (endDate) endpoint += `end_date=${endDate}`;
+            // Call the API and get the result
+            const result = await apiCall(endpoint);
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result, inserted into bootstrap cards
+                let loanCards = '';
+                result.forEach(loan => {
+                    loanCards += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Loan Details</h5>
+                            <hr><hr><hr>
+                            <p class="card-text"><strong>Loan ID:</strong> ${loan.loan_ID}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer Name:</strong> ${loan.Customer_Name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer ID:</strong> ${loan.Customer_ID}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer Phone Number:<br></strong> ${loan['Customer_phone number']}</p>
+                            <hr><hr>
+                            <p class="card-text"><strong>Book Name:</strong> ${loan.Book_Name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Book ID:</strong> ${loan.Book_ID}</p>
+                            <hr>
+                            <p class="card-text"><strong>Loan Date:</strong> ${loan.Loan_Date}</p>
+                            <hr>
+                            <p class="card-text"><strong>Return Due Date:</strong> ${loan.Return_Due_Date}</p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = loanCards;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.error_loans) {
+                // Error - No loans found
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><u>Error</u>:</strong> No loans found matching <br>
+                <br>Customer ID:  ${result.error.error_loans.cust_id}
+                <br>Book ID: ${result.error.error_loans.book_id}
+                <br>loan start date range:  ${result.error.error_loans.loan_start_date_range}
+                <br>loan end date range:  ${result.error.error_loans.loan_end_date_range}
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // -------- [Quick search Buttons logic] ---------
+        // ===============================================
+
+        async function getOutOfStockBooks() {
+            // Call the API and get the result
+            const result = await apiCall('/search_books?out_of_stock=true');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result, inserted into bootstrap cards
+                let bookCards = '';
+                result.forEach(book => {
+                    bookCards += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Details</h5>
+                            <hr><hr><hr>
+                            <p class="card-text"><strong>Book ID:</strong> ${book.id}</p>
+                            <hr>
+                            <p class="card-text"><strong>Book Name:</strong> ${book.name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Author:</strong> ${book.author}</p>
+                            <hr>
+                            <p class="card-text"><strong>Year Published:</strong> ${book.year_published}</p>
+                            <hr><hr>
+                            <p class="card-text"><strong>Loan Type:</strong> ${book['loan type']}</p>
+                            <hr>
+                            <p class="card-text"><strong>Category:</strong> ${book.category}</p>
+                            <hr>
+                            <p class="card-text"><strong>Quantity:</strong> ${book.quantity}</p>
+                            <hr>
+                            <p class="card-text">
+                                <strong>Status:</strong> ${book.is_out_of_stock ? '<span class="text-danger">Out of Stock</span>' : '<span class="text-success">In Stock</span>'}
+                            </p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = bookCards;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.errorNotFound) {
+                // Error - no deactivated book found
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Attention:</strong> No Deactivated books found in DataBase
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        async function getDeactivatedCustomers() {
+            // Call the API and get the result
+            const result = await apiCall('/search_customers?is_deactivated=true');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result, inserted into bootstrap cards
+                let customerCards = '';
+                result.forEach(customer => {
+                    customerCards += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Customer Details</h5>
+                            <hr><hr><hr>
+                            <p class="card-text"><strong>Name:</strong> ${customer.Name}</p>
+                            <hr>
+                            <p class="card-text"><strong>ID:</strong> ${customer.Id}</p>
+                            <hr>
+                            <p class="card-text"><strong>City:</strong> ${customer.City}</p>
+                            <hr>
+                            <p class="card-text"><strong>Age:</strong> ${customer.Age}</p>
+                            <hr>
+                            <p class="card-text"><strong>Phone Number:</strong> ${customer.Phone_number}</p>
+                            <p class="card-text">
+                            <hr>
+                                <strong>Status:</strong> ${customer.Deactivated_status ? '<span class="text-danger">Deactivated</span>' : '<span class="text-success">Active</span>'}
+                            </p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = customerCards;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error:</strong> ${result.error.error}
+                </div> `;
+
+            } else if (result.error && result.error.error_customer_not_found) {
+                // Error - no deactivated customer found
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Attention:</strong>  No deactivated Customers found
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        async function getLoans() {
+            // Call the API and get the result
+            const result = await apiCall('/search_loans');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';  
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result
+                let loanCards = '';
+                result.forEach(loan => {
+                    loanCards += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Loan Details</h5>
+                            <hr><hr><hr>
+                            <p class="card-text"><strong>Loan ID:</strong> ${loan.loan_ID}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer Name:</strong> ${loan.Customer_Name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer ID:</strong> ${loan.Customer_ID}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer Phone Number:</strong><br> ${loan['Customer_phone number']}</p>
+                            <hr><hr>
+                            <p class="card-text"><strong>Book Name:</strong> ${loan.Book_Name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Book ID:</strong> ${loan.Book_ID}</p>
+                            <hr>
+                            <p class="card-text"><strong>Loan Date:</strong> ${loan.Loan_Date}</p>
+                            <hr>
+                            <p class="card-text"><strong>Return Due Date:</strong> ${loan.Return_Due_Date}</p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = loanCards;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.error_loans) {
+                // Error - no loans found
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><u>Attention</u>:</strong> No loans found 
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        async function getreturnbooks() {
+            // Call the API and get the result
+            const result = await apiCall('/Returned_Books_list');
+           // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result
+                let returnedBooks = '';
+                result.forEach(book => {
+                    returnedBooks += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: green;">Returned Book Details</h5>
+                            <hr><hr>
+                            <p class="card-text"><strong>Returned Loan ID:</strong> ${book.id}</p>
+                            <hr>
+                            <p class="card-text"><strong>Book Name:</strong> ${book.book_name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer Name:</strong> ${book.cust_name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer ID:</strong> ${book.cust_id}</p>
+                            <hr>
+                            <p class="card-text"><strong>Phone Number:</strong> ${book.cust_phonenumber}</p>
+                            <hr>
+                            <p class="card-text"><strong>Loan ID:</strong> ${book.loan_id}</p>
+                            <hr>
+                            <p class="card-text"><strong>Loan Date:</strong> ${book.loan_date}</p>
+                            <hr>
+                            <p class="card-text"><strong>Returned Date:</strong> ${book.returned_date}</p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = returnedBooks;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.errorSearchfound) {
+                // Error - no returned books found
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><span style="font-size: 18px;">A</span>ttention:</strong> 
+                <span style="font-size: 18px;">N</span>o <span style="font-size: 18px;">R</span>eturned<span style="font-size: 18px;">B</span>ooks For Query 
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        async function getLateLoans() {
+            // Call the API and get the result
+            const result = await apiCall('/search_late_loans');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result, inserted into bootstrap cards
+                let loanCards = '';
+                result.forEach(loan => {
+                    loanCards += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: red;">Late Loans: Details</h5>
+                            <hr><hr><hr>
+                            <p class="card-text"><strong>Loan ID:</strong> ${loan.Loan_ID}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer Name:</strong> ${loan.Customer_name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer ID:</strong> ${loan.Customer_ID}</p>
+                            <hr>
+                            <p class="card-text"><strong>Customer Phone:</strong> ${loan['Customer_phone number']}</p>
+                            <hr><hr>
+                            <p class="card-text"><strong>Book Name:</strong> ${loan.Book_Name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Book ID:</strong> ${loan.Book_ID}</p>
+                            <hr>
+                            <p class="card-text"><strong>Loan Date:</strong> ${loan.loan_date}</p>
+                            <hr>
+                            <p class="card-text"><strong>Return Due Date:</strong> ${loan.return_due_date}</p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = loanCards;
+
+            } else  if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else  if (result.error && result.error.error_late_loans) {
+                // Error - no late loans found
+                resultsDiv.innerHTML = `
+            <div class="alert alert-success" role="alert">
+                <strong>Good!!!</strong> No late loans found!
+            </div> `;
+            
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        async function getBooks() {
+            // Call the API and get the result
+            const result = await apiCall('/search_books');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result
+                let bookCards = '';
+                result.forEach(book => {
+                    bookCards += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Book Details</h5>
+                            <hr><hr><hr>
+                            <p class="card-text"><strong>Book ID:</strong> ${book.id}</p>
+                            <hr>
+                            <p class="card-text"><strong>Book Name:</strong> ${book.name}</p>
+                            <hr>
+                            <p class="card-text"><strong>Author:</strong> ${book.author}</p>
+                            <hr>
+                            <p class="card-text"><strong>Year Published:</strong> ${book.year_published}</p>
+                            <hr><hr>
+                            <p class="card-text"><strong>Loan Type:</strong> ${book['loan type']}</p>
+                            <hr>
+                            <p class="card-text"><strong>Category:</strong> ${book.category}</p>
+                            <hr>
+                            <p class="card-text"><strong>Quantity:</strong> ${book.quantity}</p>
+                            <hr>
+                            <p class="card-text">
+                                <strong>Status:</strong> ${book.is_out_of_stock ? '<span class="text-danger">Out of Stock</span>' : '<span class="text-success">In Stock</span>'}
+                            </p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = bookCards;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.errorNotFound) {
+                // Error - no books found
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> No books found in DataBase
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        async function getCustomers() {
+            // Call the API and get the result
+            const result = await apiCall('/search_customers');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Success gives an array from the backhand so length check gives the success result
+                let customerCards = '';
+                result.forEach(customer => {
+                    customerCards += `
+                <div class="col-md-6 offset-md-3">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Customer Details</h5>
+                            <hr><hr>
+                            <p class="card-text"><strong>Name:</strong> ${customer.Name}</p>
+                            <hr>
+                            <p class="card-text"><strong>ID:</strong> ${customer.Id}</p>
+                            <hr>
+                            <p class="card-text"><strong>City:</strong> ${customer.City}</p>
+                            <hr>
+                            <p class="card-text"><strong>Age:</strong> ${customer.Age}</p>
+                            <hr>
+                            <p class="card-text"><strong>Phone Number:</strong> ${customer.Phone_number}</p>
+                            <hr>
+                            <p class="card-text">
+                                <strong>Status:</strong> ${customer.Deactivated_status ? '<span class="text-danger">Deactivated</span>' : '<span class="text-success">Active</span>'}
+                            </p>
+                        </div>
+                    </div>
+                </div> `;
+                });
+                resultsDiv.innerHTML = customerCards;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error:</strong> ${result.error.error}
+                </div> `;
+
+            } else if (result.error && result.error.error_customer_not_found) {
+                // Error - no customers found
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong>Error:</strong> No customers found.
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ---------------------- [showing form logic] ---------------
+
+        function showSearchForm() {
+            const searchType = document.getElementById('searchTypeSelect').value;
+            document.querySelectorAll('.search-form').forEach(form => form.classList.remove('active'));
+            if (searchType) {
+                document.getElementById(`${searchType}SearchForm`).classList.add('active');
+            }
+        }
+
+        // =========================================================================================================
+        // ---------------------------------------------------------------------------------------------------------
+
+
+        // ----------------------------[MANAGE FORMS]  JAVASCRIPT --------------------------------------------------
+        // =========================================================================================================
+
+        document.getElementById('removeBookManageForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const bookId = document.getElementById('removeBookId').value;
+            // Call the API and get the result
+            const result = await apiCall(`/deactivate_book/${bookId}`, 'PUT');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success) {
+                // Success
+                resultsDiv.innerHTML = `
+            <div class="alert alert-success" role="alert">
+                <strong>Success!!!</strong> <br><span style="font-size: 20px;"><b>B</b></span>ook:<b>[' </b>${result.success.name}<b> ']</b> 
+                - <span style="font-size: 18px;">I</span>D Number:${result.success.id} --> Marked as out of stock successfully.
+            </div> `;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.errorDeactivated) {
+                // Error - book already deactivated (matched with Book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><span style="font-size: 18px;"><u>Error</u>:</span></strong> 
+                <span style="font-size: 18px;">B</span>ook <b>[</b>${result.error.errorDeactivated.name}<b>]</b>, 
+                ID:(${result.error.errorDeactivated.id}) is already removed from stock.
+            </div> `;
+
+            } else if (result.error && result.error.errorNotfound) {
+                // Error - book wasnt found (matched with Book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><u><span style="font-size: 18px;">Error</span></u>:</strong> <span style="font-size: 20px;">B</span>ook with 
+                <span style="font-size: 18px;">ID:</span><b>(</b>${result.error.errorNotfound.id}<b>)</b>, was not found.
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('removeCustomerManageForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const customerId = document.getElementById('removeCustomerId').value;
+            // Call the API and get the result
+            const result = await apiCall(`/remove_customer/${customerId}`, 'PUT');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success) {
+                // Success
+                resultsDiv.innerHTML = `
+            <div class="alert alert-success" role="alert">
+                <strong><u>Success</u>!!!</strong><br> <b>[</b> ${result.success.customer_name} <b>]</b> , 
+                - <u><span style="font-size: 18px;">I</span>D Number</u>: <b>(</b> ${result.success.customer_id} <b>)</b> --> was Deactivated successfully.
+                <br><br> <span style="font-size: 18px;">P</span>lease search in <b>"</b><mark><span style="font-size: 18px;">L</span>oans<b></mark>"</b> if they have any open Loans to finish.
+            </div> `;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+                <div class="alert alert-warning" role="alert">
+                    <strong>Error:</strong> ${result.error.error}
+                </div> `;
+
+            } else if (result.error && result.error.error_id) {
+                // Error - customer wasnt found (Matched with Customer ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><u><span style="font-size: 17px;">E</span>rror</u>:</strong>
+                <span style="font-size: 18px;">Cu</span>stomer on <span style="font-size: 18px;">ID</span> Number:<b>(</b>${result.error.error_id}<b>)</b> wasnt found.
+            </div> `;
+
+            } else if (result.error && result.error.errorDeactivated) {
+                // Error - customer already deactivated (Matched with Customer ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><u><span style="font-size: 17px;">E</span>rror</u>:</strong>
+                <span style="font-size: 18px;">C</span>ustomer<b>: [</b>${result.error.errorDeactivated.customer_name}<b>]</b>,
+                <b>ID:(</b>${result.error.errorDeactivated.customer_id}<b>)</b> is already <b>D</b>eactivated.
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('activateBookManageForm').onsubmit = async (e) => {
+            e.preventDefault();
+           // Get the user input
+            const bookId = document.getElementById('activateBookId').value;
+            // Call the API and get the result
+            const result = await apiCall(`/activate_book/${bookId}`, 'PUT');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success) {
+                // Success
+                resultsDiv.innerHTML = `
+            <div class="alert alert-success" role="alert">
+                <span style="font-size: 20px;"><b>B</b>oo</span><b>k</b> <b>['</b> ${result.success.name}  <b>']</b>, 
+                <span style="font-size: 18px;">ID</span>:<b>(</b>${result.success.id}<b>)</b> ---->> <span style="font-size: 18px;">B</span>rought back to stock successfully.
+            </div> `;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.errorFoundid) {
+                // Error - book not found (matched by book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <span style="font-size: 20px;">No</span> Book with ID:<b>(</b>${result.error.errorFoundid}<b>)</b> was found.
+            </div> `;
+
+            } else if (result.error && result.error.errorquantity) {
+                // Error - no books of specific book in stock (matched by book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                   <span style="font-size: 22px;">B</span>ook <b><span style="font-size: 18px;">[</span>'</b> ${result.error.errorquantity.name} 
+               <b>'<span style="font-size: 18px;">]</span></b>, ID:${result.error.errorquantity.id} cant be activated.
+                   <span style="font-size: 18px;"><b>No</b></span> books of it in stock
+            </div> `;
+
+            } else if (result.error && result.error.errorActivated) {
+                // Error - Book already activated (matched by book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <span style="font-size: 20px;">B</span>ook <b>['</b> ${result.error.errorActivated.name} <b>']</b> 
+                on <b>(</b>ID:${result.error.errorActivated.id}<b>)</b> is already activated.
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('activateCustomerManageForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const customerId = document.getElementById('activateCustomerId').value;
+            // Call the API and get the result
+            const result = await apiCall(`/activate_customer/${customerId}`, 'PUT');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success) {
+                // Success
+                resultsDiv.innerHTML = `
+            <div class="alert alert-success" role="alert">
+                <span style="font-size: 20px;">C</span>ustomer<b>: [</b>${result.success.name}<b>]</b>, 
+                <span style="font-size: 20px;">I</span>D:<b>(</b>${result.success.id}<b>)</b> --->> <span style="font-size: 18px;">A</span>ctivated successfully 
+            </div> `;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTMLL = `
+            <div class="alert alert-warning" role="alert">
+                <span style="font-size: 18px;">E</span>rror: ${result.error.error} 
+            </div> `;
+
+            } else if (result.error && result.error.errorExist) {
+                // Error - customer doesnt exist (Matched using customer ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <span style="font-size: 18px;">C</span>ustomer with ID:<b>(</b>${result.error.errorExist}<b>)</b> does not exist. 
+            </div> `;
+
+            } else if (result.error && result.error.errorActive) {
+                // Error - already activated (Matched using customer ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <u><span style="font-size: 18px;">C</span>ustomer</u>: <b>[</b>${result.error.errorActive.name}<b>]</b>, 
+                <u>ID</u>:<b>(</b>${result.error.errorActive.id}<b>)</b> - is already Activated.
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------
+
+        document.getElementById('updateBookQuantityManageForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const bookId = document.getElementById('updateBookId').value;
+            const quantity = document.getElementById('updateBookQuantity').value;
+            // Call the API and get the result
+            const result = await apiCall('/update_book_quantity', 'PUT', {
+                book_id: bookId,
+                quantity: quantity
+            });
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success) {
+                // Success
+                const card = `
+            <div class="col-md-6 offset-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Book Updated Successfully!</h5>
+                        <hr><hr><hr>
+                        <p class="card-text"><strong>Book Name:</strong> ${result.success.book_name}</p>
+                        <hr>
+                        <p class="card-text"><strong>Book ID:</strong> ${result.success.book_id}</p>
+                        <hr>
+                        <p class="card-text"><strong>Previous Quantity:</strong> ${result.success.previous_quantity}</p>
+                        <hr>
+                        <p class="card-text"><strong>New Quantity:</strong> ${result.success.new_quantity}</p>
+                        <p class="card-text">
+                        <hr>
+                            <strong>Status:</strong> ${result.success.is_out_of_stock ? '<span class="text-danger">Out of Stock</span>' : '<span class="text-success">In Stock</span>'}
+                             ${result.success.is_out_of_stock ? '<br><br><mark>Cant be loaned unless activated in the system</mark>' : ""}
+                        </p>
+                    </div>
+                </div>
+            </div> `;
+                resultsDiv.innerHTML = card;
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><span style="font-size: 18px;">E</span>rror:</strong> ${result.error.error}
+            </div> `;
+
+            } else if (result.error && result.error.errorFoundid) {
+                // Error - book not found (Matched using Book ID)
+                resultsDiv.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+                <strong><u><span style="font-size: 20px;">Error</span></u>:</strong> <span style="font-size: 18px;">B</span>ook 
+                ID:<b>(</b>${result.error.errorFoundid}<b>)</b> not found.
+            </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        // ----------------------------------[EXTRA SEARCHS]   JAVASCRIPT-------------------------------------------
+        // =========================================================================================================
+        
+        document.getElementById('logEntriesForm').onsubmit = async (e) => {
+            e.preventDefault();
+            // Get the user input
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            // Build the API endpoint based on the search parameters
+            let endpoint = '/log_entries';
+            if (startDate || endDate) {
+                endpoint += '?';
+                if (startDate) endpoint += `start_date=${startDate}`;
+                if (startDate && endDate) endpoint += '&';
+                if (endDate) endpoint += `end_date=${endDate}`;
+            }
+            // Call the API and get the result
+            const result = await apiCall(endpoint);
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            // Success gives an array from the backhand so length check gives the success result and disply them into bootstrap cards
+            if (result.length > 0) {
+                // Create a row to contain the log cards to Display the result with Bootstrap 
+                let rowDiv = '<div class="row">';
+                // Loop through the logs and dynamically generate colorful cards
+                result.forEach((log, index) => {
+                    // Pick a different background color for each card
+                    const bgClass = (index % 3 === 0) ? 'bg-primary text-white' :
+                        (index % 3 === 1) ? 'bg-success text-white' : 'bg-warning text-dark';
+
+                            const card = `
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm ${bgClass}">
+                            <div class="card-body">
+                                <h5 class="card-title"><b>Log ID: ${log.id}</b></h5>
+                                <hr><hr><hr>
+                                <p class="card-text"><strong><u><span style="font-size: 18px;">Action:</span> </u></strong><br> ${log.action}</p>
+                                <hr>
+                                <p class="card-text"><strong><u>Timestamp:</u></strong> ${log.timestamp}</p>
+                            </div>
+                        </div>
+                    </div> `;
+                            rowDiv += card;
+                });
+                rowDiv += '</div>'; // Close the row div
+                resultsDiv.innerHTML = rowDiv; // Set the row with cards inside the results div
+
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error:</strong> ${result.error.error}
+                </div> `;
+
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning:</strong> Unexpected response format.
+            </div> `;
+            }
+        }
+
+        async function getStats() {
+            // Call the API and get the result
+            const result = await apiCall('/stats');
+            // Clear previous results from the Result Div
+            resultsDiv.innerHTML = '';
+            // Initialize cardsHTML variable to collect card HTML strings
+            let cardsHTML = '';
+            // Check if result from the backhand are error OR success and disply them into bootstrap cards
+            if (result.success) {
+                // Mapping of result fields to more user-friendly labels and colors
+                const statsMap = {
+                total_different_books: { label: "Total Different Books", color: "bg-primary text-white" },
+                total_loans_and_total_books_loaned: { label: "Total Loans & Books Loaned", color: "bg-success text-white" },
+                total_activated_customers: { label: "Total Activated Customers", color: "bg-info text-white" },
+                total_deactivated_customers: { label: "Total Deactivated Customers", color: "bg-warning text-dark" },
+                books_out_of_stock: { label: "Books Out of Stock", color: "bg-danger text-white" },
+                books_on_stock: { label: "Books In Stock", color: "bg-success text-white" },
+                total_loans_late_on_returns: { label: "<mark>Total Late Returns</mark>", color: "bg-danger text-white" },
+                total_book_pieces_in_the_store: { label: "Total Book Pieces in Store", color: "bg-primary text-white" }
+            };
+                // Loop over the stats and generate colorful Bootstrap cards for each one
+                for (let key in result.success) {
+                    if (result.success.hasOwnProperty(key)) {
+                        const { label, color } = statsMap[key];
+                        const card = `
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm ${color}">
+                            <div class="card-body">
+                                <h5 class="card-title">${label}</h5>
+                                <hr>
+                                <p class="card-text">${result.success[key]}</p>
+                            </div>
+                        </div>
+                    </div> `;
+                        cardsHTML += card;  // Append the cards to a car variable 
+                    }
+                    resultsDiv.innerHTML = cardsHTML;  // Append all cards at once
+                }
+            
+            } else if (result.error && result.error.error) {
+                // Error
+                resultsDiv.innerHTML = result.error.error;
+            
+            } else {
+                // Unexpected error 
+                resultsDiv.innerHTML = `
+                <div class="alert alert-warning" role="alert">
+                    <strong>Warning:</strong> Unexpected response format.
+                </div> `;
+            }
+        }
+
+        // =========================================================================================================
+        // ---------------------------------------------------------------------------------------------------------
+
+
+        // ---------------------------[SHOW ABOUT ME && RESET DATABASE BUTTON]   JAVASCRIPT------------------------------
+        // =========================================================================================================
+
+        async function resetDatabase() {
+            if (confirm('Are you sure you want to reset the database? This action cannot be undone.')) {
+                // Call the API and get the result
+                const result = await apiCall('/reset_database', 'POST');
+                // Clear previous results from the Result Div
+                resultsDiv.innerHTML = '';
+                // Check if result from the backhand are error OR success and disply them into bootstrap cards
+                if (result.success) {
+                    // Display success message with HTML rendering
+                    resultsDiv.innerHTML = result.success;
+
+                } else if (result.error && result.error.error) {
+                    // Error
+                    resultsDiv.innerHTML = result.error.error;
+
+                } else {
+                    // Unexpected error 
+                    resultsDiv.innerText = "Unexpected error occured";
+                }
+            }}
+
+        function show_About_Me_Section() {
+            const selectedSection = document.getElementById('aboutMeSelect').value;
+            document.querySelectorAll('.aboutMe-section').forEach(section => section.classList.remove('active'));
+            if (selectedSection) {
+                document.getElementById(`${selectedSection}Section`).classList.add('active');
+            }
+        }
+        
+        // =========================================================================================================
+        // ---------------------------------------------------------------------------------------------------------
+
+    </script>
+</body>
+
+</html>

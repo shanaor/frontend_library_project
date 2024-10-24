@@ -4,8 +4,10 @@
 
 **<u>This is the frontend HTML and Javascript for Page design and page logic</u>**
 
-The backend server python script logic is in here -->>> [Github backend](https://github.com/shanaor/backhand_library_project)
-<br><br> ***Important!!!!*** I used HTML Input restrictions which made some codes in the backend unnecessary , but I left them in because at thier base they are correct as part of correct server actions for a library. 
+The backend server python script logic is in here -->>> [Github backend](https://github.com/shanaor/backhand_library_project) <br>
+[[For Eyal: here is the storelink: [-->> Store link to start project checking <<----](https://shanaor.github.io/frontend_library_project/) ]]
+
+<br> ***Important!!!!*** I used HTML Input restrictions which made some codes in the backend unnecessary , but I left them in because at thier base they are correct as part of correct server actions for a library. 
 
  ***Also Important!!!!*** The style of how I wrote the cards with inconsistent design is ON PURPOSE. it's to create unique attributes to different functions so they would be easier to recognize by it (assuming that it would create more alertness of the user and therefore less mistakes)
 
@@ -36,6 +38,11 @@ This application uses Bootstrap Link import to make a more responsive design and
 
 ***And Axios Link import was used as well***
 _____
+
+## The "old fashion" frontend look
+I have yet to explore bootstrap all the way and be aware of its great options so I used the first option CHATGPT offered. <br>
+So the project complete the requirments asked of me for this Project but by using bootstraps tht look like from a 90's Website :o). <br>
+I did learn some interesting things about HTML tags along the way so that was Fun. 8) 
 
 ## The Late Loan Alert
 In the beginning - under The API Call function there is a call for the Index API to extract an Alert in case the Server found a late loan. Please be aware. 
